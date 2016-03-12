@@ -1,0 +1,31 @@
+{
+  "name": "webreed-nunjucks-template-engine",
+  "version": "0.0.1",
+  "description": "Nunjucks template engine plugin for webreed.",
+  "main": "lib/setup.js",
+  "typings": "lib/setup.d.ts",
+  "scripts": {
+    "prepublish": "npm run build_cjs",
+    "build_cjs": "rm -rf lib && tsc --pretty",
+    "test": "npm run build_cjs && npm run test_run",
+    "test_run": "mocha ./test/ --recursive --compilers js:babel-register"
+  },
+  "author": "Rotorz Limited",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.6.1",
+    "moment": "^2.12.0",
+    "nunjucks": "^2.3.0",
+    "rxjs": "^5.0.0-beta.2",
+    "webreed-core": "^0.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-preset-node5": "^10.6.0",
+    "babel-register": "^6.5.2",
+    "mocha": "^2.3.4",
+    "mocha-testdata": "^1.1.2",
+    "should": "^8.0.2",
+    "typescript": "^1.8.7"
+  }
+}

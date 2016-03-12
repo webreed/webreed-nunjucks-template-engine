@@ -1,0 +1,8 @@
+{%- set pagination = paginate(9, 5) -%}
+
+<h1>Page {{ pagination.currentPageNumber }} of {{ pagination.pageCount }}</h1>
+<ul>
+{%- for entryIndex in range(pagination.firstEntryIndex, pagination.endEntryIndex) -%}
+	<li>{{ entryIndex }}</li>
+{%- endfor -%}
+</ul>
