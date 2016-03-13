@@ -1,20 +1,13 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
-    "sourceMap": false,
+    "target": "es2015",
     "declaration": true,
-    "outDir": "./lib/",
-
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true
   },
   "exclude": [
     "lib",
     "node_modules"
-  ],
-  "formatCodeOptions": {
-    "indentSize": 2,
-    "tabSize": 2
-  }
+  ]
 }
