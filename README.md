@@ -1,7 +1,11 @@
-# webreed-nunjucks-template-engine [![Build Status](https://travis-ci.org/webreed/webreed-nunjucks-template-engine.svg?branch=master)](https://travis-ci.org/webreed/webreed-nunjucks-template-engine)
+# webreed-nunjucks-template-engine
 
 A plugin for [webreed](https://github.com/webreed/webreed) that provides support for
 processing [nunjucks](https://mozilla.github.io/nunjucks/) templates.
+
+[![Build Status](https://travis-ci.org/webreed/webreed-nunjucks-template-engine.svg?branch=master)](https://travis-ci.org/webreed/webreed-nunjucks-template-engine)
+[![Dependency Status](https://david-dm.org/webreed/webreed-nunjucks-template-engine.svg)](https://david-dm.org/webreed/webreed-nunjucks-template-engine)
+[![devDependency Status](https://david-dm.org/webreed/webreed-nunjucks-template-engine/dev-status.svg)](https://david-dm.org/webreed/webreed-nunjucks-template-engine#info=devDependencies)
 
 
 ## Contribution Agreement
