@@ -1,11 +1,12 @@
-# webreed-nunjucks-template-engine
+# webreed-nunjucks-template-engine [![Build Status](https://travis-ci.org/webreed/webreed-nunjucks-template-engine.svg?branch=master)](https://travis-ci.org/webreed/webreed-nunjucks-template-engine)
+
+[![Gitter](https://badges.gitter.im/webreed/webreed.svg)](https://gitter.im/webreed/webreed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![npm version](https://badge.fury.io/js/webreed-nunjucks-template-engine.svg)](https://badge.fury.io/js/webreed-nunjucks-template-engine)
+[![Dependency Status](https://david-dm.org/webreed/webreed-nunjucks-template-engine.svg)](https://david-dm.org/webreed/webreed-nunjucks-template-engine)
+[![devDependency Status](https://david-dm.org/webreed/webreed-nunjucks-template-engine/dev-status.svg)](https://david-dm.org/webreed/webreed-nunjucks-template-engine#info=devDependencies)
 
 A plugin for [webreed](https://github.com/webreed/webreed) that provides support for
 processing [nunjucks](https://mozilla.github.io/nunjucks/) templates.
-
-[![Build Status](https://travis-ci.org/webreed/webreed-nunjucks-template-engine.svg?branch=master)](https://travis-ci.org/webreed/webreed-nunjucks-template-engine)
-[![Dependency Status](https://david-dm.org/webreed/webreed-nunjucks-template-engine.svg)](https://david-dm.org/webreed/webreed-nunjucks-template-engine)
-[![devDependency Status](https://david-dm.org/webreed/webreed-nunjucks-template-engine/dev-status.svg)](https://david-dm.org/webreed/webreed-nunjucks-template-engine#info=devDependencies)
 
 
 ## Contribution Agreement
