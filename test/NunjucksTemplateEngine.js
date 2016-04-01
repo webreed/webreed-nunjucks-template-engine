@@ -171,6 +171,19 @@ describe("NunjucksTemplateEngine", function () {
         );
     });
 
+    it("exposes `config` function to template", function () {
+      let templateString = "Config Value: {{ config('life.meaning', 42) }}";
+      let templateParams = { };
+      let context = { };
+
+      return this.nunjucksTemplateEngine.renderTemplateString(templateString, templateParams, context)
+        .map(x => x.body)
+        .toPromise()
+        .should.eventually.be.eql(
+          "Config Value: 42"
+        );
+    });
+
   });
 
 });
