@@ -5,7 +5,7 @@
 const given = require("mocha-testdata");
 const should = require("should");
 
-const {Pagination} = require("../lib/Pagination");
+const {Pagination} = require("../../lib/Pagination");
 
 
 function generatePagesArgument(pageCount) {

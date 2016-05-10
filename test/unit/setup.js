@@ -7,8 +7,8 @@ import should from "should";
 
 import {Environment} from "webreed-core/lib/Environment";
 
-import setup from "../lib/setup";
-import {NunjucksTemplateEngine} from "../lib/NunjucksTemplateEngine";
+import setup from "../../lib/setup";
+import {NunjucksTemplateEngine} from "../../lib/NunjucksTemplateEngine";
 
 
 describe("#setup(env, options)", function () {

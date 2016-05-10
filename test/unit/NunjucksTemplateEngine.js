@@ -13,14 +13,14 @@ import {Observable} from "rxjs";
 
 import {Environment} from "webreed-core/lib/Environment";
 
-import {NunjucksTemplateEngine} from "../lib/NunjucksTemplateEngine";
+import {NunjucksTemplateEngine} from "../../lib/NunjucksTemplateEngine";
 
 
 describe("NunjucksTemplateEngine", function () {
 
   beforeEach(function () {
     this.env = new Environment();
-    this.env.projectRootPath = path.join(__dirname, "fixtures");
+    this.env.projectRootPath = path.resolve(__dirname, "../fixtures");
 
     this.fixture = (relativePath) => {
       return fs.readFileSync(path.join(this.env.projectRootPath, relativePath), "utf8");
