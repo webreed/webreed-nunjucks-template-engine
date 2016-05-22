@@ -62,8 +62,8 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     return Promise.resolve();
   }
 
-  public renderTemplate(templateName: string, templateParams: Object, context: Object): Observable<TemplateOutput> {
-    return this._executeRender(templateParams, templateContext => {
+  public renderTemplate(templateName: string, templateProperties: any, context: any): Observable<TemplateOutput> {
+    return this._executeRender(templateProperties, templateContext => {
       return new Promise<string>((resolve, reject) => {
         this._nunjucksEnvironment.render(templateName, templateContext,
             (err, result) => err ? reject(err) : resolve(result)
@@ -72,10 +72,10 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     });
   }
 
-  public renderTemplateString(template: string, templateParams: Object, context: Object): Observable<TemplateOutput> {
-    let compiledTemplate = nunjucks.compile(template, this._nunjucksEnvironment, templateParams["__sourceFilePath"]);
+  public renderTemplateString(template: string, templateProperties: any, context: any): Observable<TemplateOutput> {
+    let compiledTemplate = nunjucks.compile(template, this._nunjucksEnvironment, templateProperties["__sourceFilePath"]);
 
-    return this._executeRender(templateParams, templateContext => {
+    return this._executeRender(templateProperties, templateContext => {
       return new Promise<string>((resolve, reject) => {
         compiledTemplate.render(templateContext,
             (err, result) => err ? reject(err) : resolve(result)
@@ -92,8 +92,8 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     this._nunjucksEnvironment = new nunjucks.Environment(templateLoader, this._nunjucksOptions);
   }
 
-  private _executeRender(templateParams: Object, renderTemplateFn: RenderTemplateFunction): Observable<TemplateOutput> {
-    let templateContext = this._prepareTemplateContext(templateParams);
+  private _executeRender(templateProperties: any, renderTemplateFn: RenderTemplateFunction): Observable<TemplateOutput> {
+    let templateContext = this._prepareTemplateContext(templateProperties);
 
     return new Observable<TemplateOutput>((observer: Subscriber<TemplateOutput>) => {
       let pagination: Pagination = null;
@@ -137,8 +137,8 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     });
   }
 
-  private _prepareTemplateContext(templateParams: Object): Object {
-    let templateContext = _.cloneDeep(templateParams || {});
+  private _prepareTemplateContext(templateProperties: any): any {
+    let templateContext = _.cloneDeep(templateProperties || {});
 
     templateContext["@time"] = moment();
     templateContext["config"] = this._env.config.get.bind(this._env.config);
@@ -146,11 +146,11 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     return templateContext;
   }
 
-  private _hasRequirementsForPagination(templateParams: Object): boolean {
-    return typeof templateParams["_path"] === "string";
+  private _hasRequirementsForPagination(templateProperties: any): boolean {
+    return typeof templateProperties["_path"] === "string";
   }
 
-  private _paginate(pageCount: number, templateContext: Object): Array<[string, string]> {
+  private _paginate(pageCount: number, templateContext: any): Array<[string, string]> {
     let pages = new Array<[string, string]>();
     for (let n = 1; n <= pageCount; ++n) {
       let pageKey = ( n === 1 ? "index" : n.toString() );
