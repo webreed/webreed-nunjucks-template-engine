@@ -10,9 +10,9 @@
   "typings": "lib/setup.d.ts",
   "scripts": {
     "prepublish": "npm run build",
-    "build": "npm run clean && gulp build",
+    "build": "npm run clean && tsc --pretty",
     "clean": "rm -rf lib",
-    "test": "mocha ./test/unit/ --recursive --compilers js:babel-register"
+    "test": "mocha ./test/unit/ --recursive"
   },
   "author": "Rotorz Limited",
   "license": "MIT",
@@ -24,16 +24,10 @@
     "webreed-core": "^0.0.x"
   },
   "devDependencies": {
-    "babel-cli": "^6.5.1",
-    "babel-preset-node5": "^10.6.0",
-    "babel-register": "^6.5.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-typescript": "^2.12.1",
     "merge2": "^1.0.1",
     "mocha": "^2.3.4",
     "mocha-testdata": "^1.1.2",
-    "should": "^8.0.2"
+    "should": "^8.0.2",
+    "typescript": "^1.8.10"
   }
 }

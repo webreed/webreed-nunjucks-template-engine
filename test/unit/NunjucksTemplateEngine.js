@@ -1,19 +1,21 @@
 // Copyright (c) Rotorz Limited. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root.
 
+"use strict";
 
-import fs from "fs";
-import path from "path";
 
-import given from "mocha-testdata";
-import moment from "moment";
-import nunjucks from "nunjucks";
-import should from "should";
-import {Observable} from "rxjs";
+const fs = require("fs");
+const path = require("path");
 
-import {Environment} from "webreed-core/lib/Environment";
+const given = require("mocha-testdata");
+const moment = require("moment");
+const nunjucks = require("nunjucks");
+const should = require("should");
+const Observable = require("rxjs").Observable;
 
-import {NunjucksTemplateEngine} from "../../lib/NunjucksTemplateEngine";
+const Environment = require("webreed-core/lib/Environment").Environment;
+
+const NunjucksTemplateEngine = require("../../lib/NunjucksTemplateEngine").NunjucksTemplateEngine;
 
 
 describe("NunjucksTemplateEngine", function () {
