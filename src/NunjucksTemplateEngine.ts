@@ -10,7 +10,8 @@ import {Observable, Subscriber} from "rxjs";
 import {Environment} from "webreed-core/lib/Environment";
 import {TemplateEngine, TemplateOutput} from "webreed-core/lib/plugin/TemplateEngine";
 
-import {Pagination} from "./Pagination";
+import {PaginationIterator} from "./pagination/PaginationIterator";
+import {paginate} from "./pagination/paginate";
 
 
 interface RenderTemplateFunction {
@@ -96,18 +97,17 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     let templateContext = this._prepareTemplateContext(templateProperties);
 
     return new Observable<TemplateOutput>((observer: Subscriber<TemplateOutput>) => {
-      let pagination: Pagination = null;
-      let currentPageIterator = { number: 1 };
+      let pagination: PaginationIterator = null;
 
-      if (this._hasRequirementsForPagination(templateContext)) {
+      if (typeof templateContext["_path"] === "string") {
         templateContext["paginate"] = (entryCount: any, entriesPerPage: any) => {
           if (pagination === null) {
-            entryCount = parseInt(entryCount);
-            entriesPerPage = parseInt(entriesPerPage);
-
-            let pageCount = Pagination.calculatePageCount(entryCount, entriesPerPage);
-            let pages = this._paginate(pageCount, templateContext);
-            pagination = new Pagination(entryCount, entriesPerPage, pages, currentPageIterator);
+            pagination = paginate(parseInt(entriesPerPage), parseInt(entryCount), pageNumber => {
+              let pageKey = pageNumber == 1 ? "index" : pageNumber.toString();
+              let contentRelativePath = this._env.getOutputRelativePathForResource(templateContext["_path"], templateContext["_extension"], pageKey);
+              let pageUrl = this._env.getUrlForResource(contentRelativePath, templateContext["_baseUrl"]);
+              return [ pageKey, pageUrl ];
+            });
           }
           return pagination;
         };
@@ -122,12 +122,12 @@ export class NunjucksTemplateEngine implements TemplateEngine {
 
             observer.next(templateOutput);
 
-            if (!pagination || currentPageIterator.number >= pagination.pageCount) {
-              observer.complete();
+            if (pagination !== null && pagination.hasNextPage) {
+              pagination = pagination.next();
+              renderPage();
             }
             else {
-              ++currentPageIterator.number;
-              renderPage();
+              observer.complete();
             }
           })
           .catch(err => observer.error(err));
@@ -144,21 +144,6 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     templateContext["config"] = this._env.config.get.bind(this._env.config);
 
     return templateContext;
-  }
-
-  private _hasRequirementsForPagination(templateProperties: any): boolean {
-    return typeof templateProperties["_path"] === "string";
-  }
-
-  private _paginate(pageCount: number, templateContext: any): Array<[string, string]> {
-    let pages = new Array<[string, string]>();
-    for (let n = 1; n <= pageCount; ++n) {
-      let pageKey = ( n === 1 ? "index" : n.toString() );
-      let contentRelativePath = this._env.getOutputRelativePathForResource(templateContext["_path"], templateContext["_extension"], pageKey);
-      let pageUrl = this._env.getUrlForResource(contentRelativePath, templateContext["_baseUrl"]);
-      pages.push([ pageKey, pageUrl ]);
-    }
-    return pages;
   }
 
 }
