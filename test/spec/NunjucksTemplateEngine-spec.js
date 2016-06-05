@@ -142,7 +142,7 @@ describe("NunjucksTemplateEngine", function () {
     });
 
     it("yields multiple rendered outputs when source template is paginated", function () {
-      let templateString = "{% set pagination = paginate(5, 3) %}<h1>Page {{ pagination.currentPageNumber }} of {{ pagination.pageCount }}</h1>";
+      let templateString = "{% set pagination = paginate(3, 5) %}<h1>Page {{ pagination.currentPageNumber }} of {{ pagination.pageCount }}</h1>";
       let templateParams = { _path: "about" };
       let context = { };
 

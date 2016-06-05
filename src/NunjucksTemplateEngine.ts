@@ -100,7 +100,7 @@ export class NunjucksTemplateEngine implements TemplateEngine {
       let pagination: PaginationIterator = null;
 
       if (typeof templateContext["_path"] === "string") {
-        templateContext["paginate"] = (entryCount: any, entriesPerPage: any) => {
+        templateContext["paginate"] = (entriesPerPage: any, entryCount: any) => {
           if (pagination === null) {
             pagination = paginate(parseInt(entriesPerPage), parseInt(entryCount), pageNumber => {
               let pageKey = pageNumber == 1 ? "index" : pageNumber.toString();
