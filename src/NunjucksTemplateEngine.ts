@@ -8,9 +8,8 @@ import nunjucks = require("nunjucks");
 import {Observable, Subscriber} from "rxjs";
 
 import {Environment} from "webreed-core/lib/Environment";
-import {PaginationIterator} from "webreed-core/lib/pagination/PaginationIterator";
 import {TemplateEngine, TemplateOutput} from "webreed-core/lib/plugin/TemplateEngine";
-import {paginate} from "webreed-core/lib/pagination/paginate";
+import {paginate, PaginationIterator} from "webreed-core/lib/pagination";
 
 
 interface RenderTemplateFunction {
