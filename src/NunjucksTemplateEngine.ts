@@ -8,8 +8,8 @@ import nunjucks = require("nunjucks");
 import {Observable, Subscriber} from "rxjs";
 
 import {Environment} from "webreed-core/lib/Environment";
+import {PaginationIterator, PaginationProvider} from "webreed-core/lib/pagination";
 import {TemplateEngine, TemplateOutput} from "webreed-core/lib/plugin/TemplateEngine";
-import {paginate, PaginationIterator} from "webreed-core/lib/pagination";
 
 
 interface RenderTemplateFunction {
@@ -62,7 +62,9 @@ export class NunjucksTemplateEngine implements TemplateEngine {
   }
 
   public renderTemplate(templateName: string, templateProperties: any, context: any): Observable<TemplateOutput> {
-    return this._executeRender(templateProperties, templateContext => {
+    context = context || {};
+
+    return this._executeRender(templateProperties, context.paginationProvider, templateContext => {
       return new Promise<string>((resolve, reject) => {
         this._nunjucksEnvironment.render(templateName, templateContext,
             (err, result) => err ? reject(err) : resolve(result)
@@ -72,9 +74,11 @@ export class NunjucksTemplateEngine implements TemplateEngine {
   }
 
   public renderTemplateString(template: string, templateProperties: any, context: any): Observable<TemplateOutput> {
+    context = context || {};
+
     let compiledTemplate = nunjucks.compile(template, this._nunjucksEnvironment, templateProperties["__sourceFilePath"]);
 
-    return this._executeRender(templateProperties, templateContext => {
+    return this._executeRender(templateProperties, context.paginationProvider, templateContext => {
       return new Promise<string>((resolve, reject) => {
         compiledTemplate.render(templateContext,
             (err, result) => err ? reject(err) : resolve(result)
@@ -91,21 +95,16 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     this._nunjucksEnvironment = new nunjucks.Environment(templateLoader, this._nunjucksOptions);
   }
 
-  private _executeRender(templateProperties: any, renderTemplateFn: RenderTemplateFunction): Observable<TemplateOutput> {
+  private _executeRender(templateProperties: any, paginationProvider: PaginationProvider, renderTemplateFn: RenderTemplateFunction): Observable<TemplateOutput> {
     let templateContext = this._prepareTemplateContext(templateProperties);
 
     return new Observable<TemplateOutput>((observer: Subscriber<TemplateOutput>) => {
       let pagination: PaginationIterator = null;
 
-      if (typeof templateContext["_path"] === "string") {
+      if (paginationProvider) {
         templateContext["paginate"] = (entriesPerPage: any, entryCount: any) => {
           if (pagination === null) {
-            pagination = paginate(parseInt(entriesPerPage), parseInt(entryCount), pageNumber => {
-              let pageKey = pageNumber == 1 ? "index" : pageNumber.toString();
-              let contentRelativePath = this._env.getOutputRelativePathForResource(templateContext["_path"], templateContext["_extension"], pageKey);
-              let pageUrl = this._env.getUrlForResource(contentRelativePath, templateContext["_baseUrl"]);
-              return [ pageKey, pageUrl ];
-            });
+            pagination = paginationProvider.paginate(parseInt(entriesPerPage), parseInt(entryCount));
           }
           return pagination;
         };

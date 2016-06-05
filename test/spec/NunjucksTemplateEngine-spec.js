@@ -17,6 +17,8 @@ const Environment = require("webreed-core/lib/Environment").Environment;
 
 const NunjucksTemplateEngine = require("../../lib/NunjucksTemplateEngine").NunjucksTemplateEngine;
 
+const FakePaginationProvider = require("../fakes/FakePaginationProvider").FakePaginationProvider;
+
 
 describe("NunjucksTemplateEngine", function () {
 
@@ -103,7 +105,9 @@ describe("NunjucksTemplateEngine", function () {
     it("yields multiple rendered outputs when source template is paginated", function () {
       let templateName = "paginated.nunjucks";
       let templateParams = { _path: "about" };
-      let context = { };
+      let context = {
+        paginationProvider: new FakePaginationProvider()
+      };
 
       return this.nunjucksTemplateEngine.renderTemplate(templateName, templateParams, context)
         .toArray().toPromise()
@@ -144,7 +148,9 @@ describe("NunjucksTemplateEngine", function () {
     it("yields multiple rendered outputs when source template is paginated", function () {
       let templateString = "{% set pagination = paginate(3, 5) %}<h1>Page {{ pagination.currentPageNumber }} of {{ pagination.pageCount }}</h1>";
       let templateParams = { _path: "about" };
-      let context = { };
+      let context = {
+        paginationProvider: new FakePaginationProvider()
+      };
 
       return this.nunjucksTemplateEngine.renderTemplateString(templateString, templateParams, context)
         .toArray().toPromise()
