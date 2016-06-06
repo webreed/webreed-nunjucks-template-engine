@@ -5,6 +5,7 @@
 import _ = require("lodash");
 import moment = require("moment");
 import nunjucks = require("nunjucks");
+import nunjucksDate = require("nunjucks-date");
 import {Observable, Subscriber} from "rxjs";
 
 import {Environment} from "webreed-core/lib/Environment";
@@ -38,6 +39,7 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     this._nunjucksOptions = nunjucksOptions;
 
     this._initNunjucksEnvironment();
+    this._initDefaultPlugins();
   }
 
 
@@ -93,6 +95,12 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     templateLoader.init([ this._env.resolvePath("templates") ], null);
 
     this._nunjucksEnvironment = new nunjucks.Environment(templateLoader, this._nunjucksOptions);
+  }
+
+  private _initDefaultPlugins(): void {
+    // Filter: `date`
+    nunjucksDate.setDefaultFormat("MMMM Do YYYY, h:mm:ss a");
+    nunjucksDate.install(this._nunjucksEnvironment);
   }
 
   private _executeRender(templateProperties: any, paginationProvider: PaginationProvider, renderTemplateFn: RenderTemplateFunction): Observable<TemplateOutput> {

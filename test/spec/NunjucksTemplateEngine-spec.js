@@ -192,6 +192,19 @@ describe("NunjucksTemplateEngine", function () {
         );
     });
 
+    it("exposes `date` filter to template", function () {
+      let templateString = "Year: {{ '2016-06-06'|date('YYYY') }}";
+      let templateParams = { };
+      let context = { };
+
+      return this.nunjucksTemplateEngine.renderTemplateString(templateString, templateParams, context)
+        .map(x => x.body)
+        .toPromise()
+        .should.eventually.be.eql(
+          "Year: 2016"
+        );
+    });
+
   });
 
 });

@@ -11,6 +11,9 @@
     "nunjucks/nunjucks.d.ts": {
       "commit": "8b3b453a104bb2a949580bbb4e8c81c2a10138b3"
     },
+    "nunjucks-date/nunjucks-date.d.ts": {
+      "commit": "3c8a53bd4fcd8fcf9a25229873de9b12374cb025"
+    },
     "moment/moment.d.ts": {
       "commit": "8b3b453a104bb2a949580bbb4e8c81c2a10138b3"
     },
