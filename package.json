@@ -1,6 +1,6 @@
 {
   "name": "webreed-nunjucks-template-engine",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Nunjucks template engine plugin for webreed.",
   "repository": {
     "type": "git",
