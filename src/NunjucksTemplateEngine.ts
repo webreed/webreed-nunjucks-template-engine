@@ -68,7 +68,7 @@ export class NunjucksTemplateEngine implements TemplateEngine {
   public renderTemplate(templateName: string, templateProperties: any, context: any): Observable<TemplateOutput> {
     context = context || {};
 
-    return this._executeRender(templateProperties, context.paginationProvider, templateContext => {
+    return this._executeRender(templateProperties, context.url, context.paginationProvider, templateContext => {
       return new Promise<string>((resolve, reject) => {
         this._nunjucksEnvironment.render(templateName, templateContext,
             (err, result) => err ? reject(err) : resolve(result)
@@ -82,7 +82,7 @@ export class NunjucksTemplateEngine implements TemplateEngine {
 
     let compiledTemplate = nunjucks.compile(template, this._nunjucksEnvironment, templateProperties["__sourceFilePath"]);
 
-    return this._executeRender(templateProperties, context.paginationProvider, templateContext => {
+    return this._executeRender(templateProperties, context.url, context.paginationProvider, templateContext => {
       return new Promise<string>((resolve, reject) => {
         compiledTemplate.render(templateContext,
             (err, result) => err ? reject(err) : resolve(result)
@@ -108,7 +108,7 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     urlFilter.install(this._env, this._nunjucksEnvironment);
   }
 
-  private _executeRender(templateProperties: any, paginationProvider: PaginationProvider, renderTemplateFn: RenderTemplateFunction): Observable<TemplateOutput> {
+  private _executeRender(templateProperties: any, url: string, paginationProvider: PaginationProvider, renderTemplateFn: RenderTemplateFunction): Observable<TemplateOutput> {
     let templateContext = this._prepareTemplateContext(templateProperties);
 
     return new Observable<TemplateOutput>((observer: Subscriber<TemplateOutput>) => {
@@ -122,6 +122,10 @@ export class NunjucksTemplateEngine implements TemplateEngine {
           return pagination;
         };
       }
+
+      Object.defineProperty(templateContext["@"], "url", {
+        get: () => pagination ? pagination.currentPageUrl : url
+      });
 
       function renderPage() {
         renderTemplateFn(templateContext)

@@ -1,2 +1,4 @@
 <h1>{{ title }}</h1>
 <p>This is an example page!</p>
+
+<p>Url: {{ @.url }}</p>

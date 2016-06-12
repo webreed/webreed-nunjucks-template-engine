@@ -93,7 +93,7 @@ describe("NunjucksTemplateEngine", function () {
     it("yields single rendered output when source template is not paginated", function () {
       let templateName = "simple.nunjucks";
       let templateParams = { title: "My Page!" };
-      let context = { };
+      let context = { url: "http://example.com/simple.html" };
 
       return this.nunjucksTemplateEngine.renderTemplate(templateName, templateParams, context)
         .map(x => x.body)
@@ -107,6 +107,7 @@ describe("NunjucksTemplateEngine", function () {
       let templateName = "paginated.nunjucks";
       let templateParams = { _path: "about" };
       let context = {
+        url: "http://example.com/paginated.html",
         paginationProvider: new FakePaginationProvider()
       };
 
@@ -177,6 +178,19 @@ describe("NunjucksTemplateEngine", function () {
         .toPromise()
         .should.eventually.be.eql(
           "Time Started: " + moment().format('YYYY-MM-DD')
+        );
+    });
+
+    it("exposes `@.url` to template", function () {
+      let templateString = "Url: {{ @.url }}";
+      let templateParams = { };
+      let context = { url: "http://example.com" };
+
+      return this.nunjucksTemplateEngine.renderTemplateString(templateString, templateParams, context)
+        .map(x => x.body)
+        .toPromise()
+        .should.eventually.be.eql(
+          "Url: http://example.com"
         );
     });
 
