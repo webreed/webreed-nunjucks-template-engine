@@ -24,6 +24,7 @@ describe("NunjucksTemplateEngine", function () {
 
   beforeEach(function () {
     this.env = new Environment();
+    this.env.baseUrl = "http://example.com";
     this.env.projectRootPath = path.resolve(__dirname, "../fixtures");
 
     this.fixture = (relativePath) => {
@@ -202,6 +203,22 @@ describe("NunjucksTemplateEngine", function () {
         .toPromise()
         .should.eventually.be.eql(
           "Year: 2016"
+        );
+    });
+
+    given([
+      [ "Url: {{ '/abc/def'|url }}", "Url: http://example.com/abc/def" ],
+      [ "Url: {{ '/abc/def'|url('http://example.website/root/abc/def') }}", "Url: http://example.website/abc/def" ]
+    ]).
+    it("exposes `url` filter to template", function (templateString, expectedOutput) {
+      let templateParams = { };
+      let context = { };
+
+      return this.nunjucksTemplateEngine.renderTemplateString(templateString, templateParams, context)
+        .map(x => x.body)
+        .toPromise()
+        .should.eventually.be.eql(
+          expectedOutput
         );
     });
 

@@ -12,6 +12,8 @@ import {Environment} from "webreed-core/lib/Environment";
 import {PaginationIterator, PaginationProvider} from "webreed-core/lib/pagination";
 import {TemplateEngine, TemplateOutput} from "webreed-core/lib/plugin/TemplateEngine";
 
+import * as urlFilter from "./filters/url";
+
 
 interface RenderTemplateFunction {
   (templateContext: Object): Promise<string>;
@@ -101,6 +103,9 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     // Filter: `date`
     nunjucksDate.setDefaultFormat("MMMM Do YYYY, h:mm:ss a");
     nunjucksDate.install(this._nunjucksEnvironment);
+
+    // Filter: `url`
+    urlFilter.install(this._env, this._nunjucksEnvironment);
   }
 
   private _executeRender(templateProperties: any, paginationProvider: PaginationProvider, renderTemplateFn: RenderTemplateFunction): Observable<TemplateOutput> {
