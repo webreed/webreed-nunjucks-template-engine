@@ -147,7 +147,7 @@ describe("NunjucksTemplateEngine", function () {
     });
 
     it("yields multiple rendered outputs when source template is paginated", function () {
-      let templateString = "{% set pagination = paginate(3, 5) %}<h1>Page {{ pagination.currentPageNumber }} of {{ pagination.pageCount }}</h1>";
+      let templateString = "{% set pagination = @.paginate(3, 5) %}<h1>Page {{ pagination.currentPageNumber }} of {{ pagination.pageCount }}</h1>";
       let templateParams = { _path: "about" };
       let context = {
         paginationProvider: new FakePaginationProvider()
@@ -167,8 +167,8 @@ describe("NunjucksTemplateEngine", function () {
         ]);
     });
 
-    it("exposes `@time` to template", function () {
-      let templateString = "Time Started: {{ @time.format('YYYY-MM-DD') }}";
+    it("exposes `@.time` to template", function () {
+      let templateString = "Time Started: {{ @.time.format('YYYY-MM-DD') }}";
       let templateParams = { };
       let context = { };
 

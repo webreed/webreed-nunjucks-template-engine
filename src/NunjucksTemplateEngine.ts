@@ -115,7 +115,7 @@ export class NunjucksTemplateEngine implements TemplateEngine {
       let pagination: PaginationIterator = null;
 
       if (paginationProvider) {
-        templateContext["paginate"] = (entriesPerPage: any, entryCount: any) => {
+        templateContext["@"].paginate = (entriesPerPage: any, entryCount: any) => {
           if (pagination === null) {
             pagination = paginationProvider.paginate(parseInt(entriesPerPage), parseInt(entryCount));
           }
@@ -150,7 +150,10 @@ export class NunjucksTemplateEngine implements TemplateEngine {
   private _prepareTemplateContext(templateProperties: any): any {
     let templateContext = _.cloneDeep(templateProperties || {});
 
-    templateContext["@time"] = moment();
+    templateContext["@"] = {
+      time: moment()
+    };
+
     templateContext["config"] = this._env.config.get.bind(this._env.config);
 
     return templateContext;

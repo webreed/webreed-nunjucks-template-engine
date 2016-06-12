@@ -1,4 +1,4 @@
-{%- set pagination = paginate(5, 9) -%}
+{%- set pagination = @.paginate(5, 9) -%}
 
 <h1>Page {{ pagination.currentPageNumber }} of {{ pagination.pageCount }}</h1>
 <ul>
