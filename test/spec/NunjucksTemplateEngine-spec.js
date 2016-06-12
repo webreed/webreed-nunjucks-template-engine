@@ -194,8 +194,8 @@ describe("NunjucksTemplateEngine", function () {
         );
     });
 
-    it("exposes `config` function to template", function () {
-      let templateString = "Config Value: {{ config('life.meaning', 42) }}";
+    it("exposes `@.config` function to template", function () {
+      let templateString = "Config Value: {{ @.config('life.meaning', 42) }}";
       let templateParams = { };
       let context = { };
 

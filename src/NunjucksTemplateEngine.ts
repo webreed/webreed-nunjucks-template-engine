@@ -155,10 +155,9 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     let templateContext = _.cloneDeep(templateProperties || {});
 
     templateContext["@"] = {
-      time: moment()
+      config: this._env.config.get.bind(this._env.config),
+      time: moment(),
     };
-
-    templateContext["config"] = this._env.config.get.bind(this._env.config);
 
     return templateContext;
   }
