@@ -157,6 +157,7 @@ export class NunjucksTemplateEngine implements TemplateEngine {
     templateContext["@"] = {
       config: this._env.config.get.bind(this._env.config),
       time: moment(),
+      siteUrl: this._env.baseUrl
     };
 
     return templateContext;

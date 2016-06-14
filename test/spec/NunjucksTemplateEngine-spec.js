@@ -181,6 +181,19 @@ describe("NunjucksTemplateEngine", function () {
         );
     });
 
+    it("exposes `@.siteUrl` to template", function () {
+      let templateString = "Site Url: {{ @.siteUrl }}";
+      let templateParams = { };
+      let context = { };
+
+      return this.nunjucksTemplateEngine.renderTemplateString(templateString, templateParams, context)
+        .map(x => x.body)
+        .toPromise()
+        .should.eventually.be.eql(
+          "Site Url: http://example.com"
+        );
+    });
+
     it("exposes `@.url` to template", function () {
       let templateString = "Url: {{ @.url }}";
       let templateParams = { };
